@@ -1,0 +1,65 @@
+# Prospectively frozen Waterbirds external-validity confirmation of
+# RepairValue-Q after the disjoint CelebA confirmation and Waterbirds
+# seed-10--19 mechanism follow-up. Scientific fields are validated in
+# robust_verify.waterbirds_repairvalue_confirmatory. Server launchers permit
+# only data/output path overrides.
+confirmation:
+  protocol_version: waterbirds-e2e-repairvalue-confirmatory-seeds-20-39-v1
+  role: prospective_external_validity_confirmation
+  hypothesis_origin: celeba_repairvalue_seed20_29_and_waterbirds_mechanism_seed10_19
+  primary_method: expected_repair_value
+  paired_baseline: loss
+  primary_estimand: mean_seed_paired_delta_wga_difference_vs_loss
+  primary_gate:
+    require_bootstrap_ci_lower_above_zero: true
+    require_absolute_ci_lower_above_zero: true
+    min_positive_paired_seeds: 15
+
+project:
+  output_dir: outputs/waterbirds_e2e_repairvalue_seed20_39
+
+data:
+  dataset: waterbirds
+  root: data/waterbirds_v1.0
+  metadata_csv: metadata.csv
+  split_values:
+    train: 0
+    val: 1
+    test: 2
+
+features:
+  skip_extraction: true
+
+training:
+  selection_metric: balanced_accuracy
+
+end_to_end:
+  backbone: resnet50
+  pretrained: true
+  input_size: 224
+  augmentation: true
+  batch_size: 48
+  num_workers: 4
+  learning_rate: 0.00003
+  weight_decay: 0.0001
+  epochs: 10
+  patience: 3
+  amp: true
+  device: cuda
+  deterministic: true
+
+noise:
+  settings:
+    - {name: uniform20, kind: uniform, rate: 0.20}
+
+experiment:
+  seeds: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+  budgets: [0.10]
+  baseline_options:
+    repair_value_tail_fraction: 0.20
+  methods:
+    - random
+    - loss
+    - noise_score
+    - tracin_val_uncertainty
+    - expected_repair_value

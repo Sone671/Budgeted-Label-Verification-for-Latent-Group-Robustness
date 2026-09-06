@@ -1,0 +1,46 @@
+# Exploratory local frozen-feature diagnostic.  This is deliberately separate
+# from the registered end-to-end seeds 10--19 confirmatory protocol.
+project:
+  output_dir: outputs/local_celeba_modern_baselines_uniform20_10pct
+  input_dir: outputs/ablation_celeba_10seeds
+
+data:
+  dataset: celeba
+  root: /absolute/path/to/celebA_v1.0
+  target_attr: Eyeglasses
+  spurious_attr: Male
+  minority_mode: group_id
+  minority_group: 2
+
+features:
+  skip_extraction: true
+
+training:
+  epochs: 20
+  batch_size: 4096
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  patience: 5
+  selection_metric: balanced_accuracy
+  device: auto
+
+noise:
+  settings:
+    - {name: uniform20, kind: uniform, rate: 0.20}
+
+experiment:
+  seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  budgets: [0.10]
+  baseline_options:
+    repair_value_tail_fraction: 0.20
+    auto_d3m_projection_dim: 64
+    auto_d3m_projection_seed: 20260731
+    auto_d3m_tail_fraction: 0.35
+    auto_d3m_beta: 1.0
+    auto_d3m_ridge: 0.0001
+  methods:
+    - loss
+    - tracin_val_uncertainty
+    - tracin_multicheckpoint_val
+    - expected_repair_value
+    - auto_d3m_query

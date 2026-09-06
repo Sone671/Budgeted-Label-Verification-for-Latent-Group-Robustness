@@ -1,0 +1,58 @@
+{
+  "registration_version": "1.0",
+  "registered_on": "2026-08-28",
+  "status": "registered_awaiting_server_results",
+  "protocol_version": "celeba-e2e-young-male-rvq-seed60-79-v1",
+  "protocol_sha256": "d7b639481debb1040baadca4326b0df85aecc3eb2b6c8a55cbece715dd5f701f",
+  "config": {
+    "path": "configs/celeba_e2e_young_male_rvq_seed60_79.yaml",
+    "sha256": "a18b6920b82f94c66a13af54dc857f006ff99b8baab7ea80cf355efda288c355"
+  },
+  "condition": {
+    "dataset": "celeba",
+    "target_attr": "Young",
+    "spurious_attr": "Male",
+    "noise": "uniform20",
+    "noise_rate": 0.2,
+    "budget_fraction": 0.1,
+    "seeds": [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79],
+    "methods": ["random", "loss", "noise_score", "oof_cleanlab", "expected_repair_value"],
+    "paired_query_baseline": "loss",
+    "absolute_baseline": "same-seed no-correction ResNet-50"
+  },
+  "method_definitions": {
+    "oof_cleanlab": {
+      "paper_name": "Cleanlab (OOF linear-probe score)",
+      "folds": 5,
+      "uses_clean_validation_labels": false,
+      "uses_group_labels": false,
+      "uses_test_labels": false
+    },
+    "expected_repair_value": {
+      "paper_name": "RepairValue-Q (tail)",
+      "tail_fraction": 0.2,
+      "noise_posterior_proxy": "NoiseScore"
+    }
+  },
+  "primary_estimand": "mean seed-paired delta_wga(expected_repair_value) minus delta_wga(loss)",
+  "primary_gate": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_rng_seed": 20260828,
+    "require_bootstrap_ci_lower_above_zero": true,
+    "require_absolute_ci_lower_above_zero": true,
+    "min_positive_paired_seeds": 15
+  },
+  "noncontamination_rules": [
+    "Do not replace or add seeds after a formal seed 60-79 outcome is generated.",
+    "Do not change the task, noise, budget, methods, OOF fold settings, tail fraction, backbone, or gate under this protocol version.",
+    "Do not pool this task with the existing CelebA Eyeglasses/Male blocks or Waterbirds blocks for the primary inference.",
+    "Persist query IDs before opening clean training labels, group labels, or test outcomes.",
+    "A failed primary gate is retained as a null result and does not authorize method or hyperparameter search."
+  ],
+  "code_package": {
+    "runner": "scripts/run_celeba_young_male_server.py",
+    "runner_sha256": "9adb2f515b76d2c925a0e4cf5b6253952f4e14483bffd5ddc1b2f7cf53edeed2",
+    "protocol_module": "src/robust_verify/celeba_young_male_confirmatory.py"
+  },
+  "formal_results_generated": false
+}

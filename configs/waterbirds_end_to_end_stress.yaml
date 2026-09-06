@@ -1,0 +1,43 @@
+# Pre-registered high-budget stress condition. Run only after the confirmatory config.
+project:
+  output_dir: outputs/waterbirds_end_to_end_stress
+
+data:
+  dataset: waterbirds
+  root: /absolute/path/to/waterbirds
+  metadata_csv: metadata.csv
+  split_values: {train: 0, val: 1, test: 2}
+
+features:
+  skip_extraction: true
+
+training:
+  selection_metric: balanced_accuracy
+
+end_to_end:
+  backbone: resnet50
+  pretrained: true
+  input_size: 224
+  augmentation: true
+  batch_size: 48
+  num_workers: 4
+  learning_rate: 0.00003
+  weight_decay: 0.0001
+  epochs: 20
+  patience: 5
+  amp: true
+  device: auto
+
+noise:
+  settings:
+    - {name: uniform20, kind: uniform, rate: 0.20}
+
+experiment:
+  seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  budgets: [0.10]
+  methods:
+    - random
+    - loss
+    - noise_score
+    - noise_score_cpba_only
+    - noise_score_cpba_tc_v8_fallback

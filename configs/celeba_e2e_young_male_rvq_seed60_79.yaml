@@ -1,0 +1,86 @@
+# Prospective task-level replication of RepairValue-Q with an OOF Cleanlab
+# comparison.  This protocol is intentionally disjoint from all existing
+# CelebA Eyeglasses/Male runs and uses a fresh output root.
+confirmation:
+  protocol_version: celeba-e2e-young-male-rvq-seed60-79-v1
+  role: prospective_task_level_replication
+  hypothesis_origin: preregistered_before_formal_run
+  primary_method: expected_repair_value
+  paired_baseline: loss
+  primary_estimand: mean_seed_paired_delta_wga_difference_vs_loss
+  primary_gate:
+    require_bootstrap_ci_lower_above_zero: true
+    min_positive_paired_seeds: 15
+    require_absolute_ci_lower_above_zero: true
+
+project:
+  output_dir: outputs/celeba_e2e_young_male_rvq_seed60_79
+
+data:
+  dataset: celeba
+  root: data/celebA_v1.0
+  metadata_csv: list_attr_celeba.csv
+  partition_csv: list_eval_partition.csv
+  target_attr: Young
+  spurious_attr: Male
+  image_subdir: img_align_celeba
+  # Keep the standard latent-spurious definition. WGA is computed over all
+  # four target x spurious groups; this flag is for post-query composition only.
+  minority_mode: label_neq_place
+  split_values:
+    train: 0
+    val: 1
+    test: 2
+
+features:
+  # The end-to-end runner captures legal probe features directly.
+  skip_extraction: true
+
+training:
+  selection_metric: balanced_accuracy
+
+end_to_end:
+  backbone: resnet50
+  pretrained: true
+  input_size: 224
+  augmentation: true
+  batch_size: 48
+  num_workers: 4
+  learning_rate: 0.00003
+  weight_decay: 0.0001
+  epochs: 10
+  patience: 3
+  amp: true
+  device: cuda
+  deterministic: true
+
+noise:
+  settings:
+    - {name: uniform20, kind: uniform, rate: 0.20}
+
+experiment:
+  seeds: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69,
+          70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
+  budgets: [0.10]
+  baseline_options:
+    repair_value_tail_fraction: 0.20
+    oof_folds: 5
+    oof_alpha: 0.0001
+    oof_max_iter: 40
+    oof_tol: 0.001
+    oof_split_seed_offset: 17003
+  methods:
+    - random
+    - loss
+    - noise_score
+    - oof_cleanlab
+    - expected_repair_value
+
+analysis:
+  reference_method: loss
+  methods:
+    - noise_score
+    - oof_cleanlab
+    - expected_repair_value
+  bootstrap_replicates: 10000
+  rng_seed: 20260828

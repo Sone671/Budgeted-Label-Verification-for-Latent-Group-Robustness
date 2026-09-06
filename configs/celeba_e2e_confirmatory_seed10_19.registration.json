@@ -1,0 +1,50 @@
+{
+  "registration_version": "1.0",
+  "registered_on": "2026-07-31",
+  "status": "registered_awaiting_server_results",
+  "protocol_version": "celeba-e2e-tracin-heldout-seeds-10-19-v1",
+  "protocol_sha256": "45d903535a23475c4de61be2d5f466d526ab73c46ab2f9d68d58407ae71c849f",
+  "config": {
+    "path": "configs/celeba_e2e_confirmatory_seed10_19.yaml",
+    "sha256": "a23aa125211203740c171bac06b260de8082a9264a33692d9c147334507101d4"
+  },
+  "server_bundle": {
+    "path": "dist/celeba_confirmatory_seed10_19_server.zip",
+    "bytes": 129083,
+    "sha256": "d92a7aa14c3e649e1c1c01527cec56d7c54f71459a460b0dd220ff52cd32a10d"
+  },
+  "condition": {
+    "dataset": "celeba",
+    "target_attr": "Eyeglasses",
+    "spurious_attr": "Male",
+    "noise": "uniform20",
+    "noise_rate": 0.2,
+    "budget_fraction": 0.1,
+    "seeds": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+    "candidate": "tracin_val_uncertainty",
+    "paired_query_baseline": "loss",
+    "absolute_baseline": "same-seed no-correction ResNet-50"
+  },
+  "primary_estimand": "mean seed-paired delta_wga versus no correction",
+  "primary_gate": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_rng_seed": 20260724,
+    "require_bootstrap_ci_upper_below_zero": true,
+    "min_negative_seeds": 8,
+    "min_mean_noise_precision": 0.99,
+    "all_conditions_required": true
+  },
+  "secondary_estimand": "seed-paired delta_wga(tracin_val_uncertainty) minus delta_wga(loss)",
+  "noncontamination_rules": [
+    "Do not replace or add seeds after any end-to-end result is observed.",
+    "Do not change the noise, budget, method, backbone, batch size, epoch cap, or gate under this protocol version.",
+    "Do not pool exploratory seeds 0-9 with confirmatory seeds 10-19.",
+    "A failed primary gate is retained as a null result and does not authorize a new budget search.",
+    "The relative-to-Loss contrast cannot substitute for the absolute no-correction comparison."
+  ],
+  "registration_boundary": {
+    "local_stage0_integrity_smoke_completed": true,
+    "local_tiny_end_to_end_tests_completed": true,
+    "formal_end_to_end_results_generated_or_inspected": false
+  }
+}

@@ -1,0 +1,38 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+outputs/
+/output/
+/data/
+/tmp/
+dist/
+build/
+*.egg-info/
+
+# Local experiment bundles and generated paper intermediates.  The source
+# package, configs, tests, and paper assets remain visible to version control.
+/paper/output/
+/paper/tmp/
+/paper/recent_iclr_oral_spotlight/
+/*.zip
+/*.rar
+/*.tar.gz
+/2024.pdf
+/2025.pdf
+/p1.pdf
+/p2.pdf
+/q1.pdf
+/q2.pdf
+/q3.pdf
+/prof.out
+
+# Generated files for the unified joint-group-label-budget manuscript.
+joint_group_label_budget/paper/*.aux
+joint_group_label_budget/paper/*.bbl
+joint_group_label_budget/paper/*.blg
+joint_group_label_budget/paper/*.log
+joint_group_label_budget/paper/*.out
+joint_group_label_budget/paper/*.synctex.gz
+joint_group_label_budget/paper/main.pdf

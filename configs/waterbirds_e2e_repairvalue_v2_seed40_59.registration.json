@@ -1,0 +1,132 @@
+{
+  "registration_version": "1.0",
+  "registered_on": "2026-08-04",
+  "status": "registered_awaiting_server_results",
+  "protocol_version": "waterbirds-e2e-repairvalue-v2-seeds-40-59-v1",
+  "protocol_sha256": "9e3af0b93728143d5348d41ce479302fcef75a12f1428d3595c6a0df3a3362a3",
+  "config": {
+    "path": "configs/waterbirds_e2e_repairvalue_v2_seed40_59.yaml",
+    "bytes": 1763,
+    "sha256": "800542bc19113e37f6d9d11a368015c7c19426a792cf0d7954691b0797a155d9"
+  },
+  "server_bundle": {
+    "path": "dist/waterbirds_repairvalue_v2_seed40_59_server.zip",
+    "bytes": 165843,
+    "sha256": "f964a11db60fb6feb7ff3210281416fed9cf64073c4941c3b0db2d1f7e340f81",
+    "package_manifest_sha256": "8197ef2f039b69b747babd322068d22b37e8e60fda23c9a2bb01875bedcc8072"
+  },
+  "code_sha256": {
+    "src/robust_verify/scoring.py": "b376af104755cfb3bb074d6991fbeb7abcf2546c3138964f4b4a890853520774",
+    "src/robust_verify/modern_baselines.py": "6a1a4cd1800abb34e4121be33abf5e645ec966d338385d7eb4d2acac70b49e4b",
+    "src/robust_verify/end_to_end.py": "7b92099dfe460655777f2f67c4aaf0bdd58841f1459b3451d0f685d13dc4601f"
+  },
+  "condition": {
+    "dataset": "waterbirds",
+    "noise": "uniform20",
+    "noise_rate": 0.2,
+    "budget_fraction": 0.1,
+    "budget_count": 480,
+    "seeds": [
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59
+    ],
+    "candidate": "noise_gated_repair_value",
+    "paired_query_baseline": "noise_score",
+    "secondary_methods": [
+      "random",
+      "loss",
+      "expected_repair_value"
+    ],
+    "absolute_baseline": "same-seed no-correction ResNet-50"
+  },
+  "method_definition": {
+    "paper_name": "RepairValue-Q v2 (noise-gated)",
+    "noise_proxy": "NoiseScore",
+    "candidate_pool": "top ceil(2.0 * B) by NoiseScore with loss tie-break",
+    "detector_anchor": "top ceil(0.50 * B) by NoiseScore",
+    "value_fill": "highest RepairValue component among remaining candidate-pool examples",
+    "value_ties": "NoiseScore then loss",
+    "tail_fraction": 0.2,
+    "query_time_group_labels": false,
+    "budget_dependent_ranking": true
+  },
+  "training": {
+    "backbone": "pretrained ResNet-50",
+    "full_parameter_retraining": true,
+    "batch_size": 48,
+    "learning_rate": 0.00003,
+    "weight_decay": 0.0001,
+    "epoch_cap": 10,
+    "patience": 3,
+    "checkpoint_selection": "public validation balanced accuracy",
+    "deterministic": true,
+    "shared_initialization_within_seed": true
+  },
+  "primary_estimand": "mean seed-paired delta_wga(noise_gated_repair_value) minus delta_wga(noise_score)",
+  "primary_gate": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_rng_seed": 20260805,
+    "require_paired_bootstrap_ci_lower_above_zero": true,
+    "min_positive_paired_seeds": 15,
+    "require_absolute_bootstrap_ci_lower_above_zero": true,
+    "precision_noninferiority_margin": 0.1,
+    "require_paired_precision_difference_ci_lower_at_least_negative_margin": true,
+    "all_conditions_required": true
+  },
+  "secondary_estimands": [
+    "v2 paired delta_wga versus v1",
+    "v2 paired delta_wga versus Loss",
+    "v2 paired delta_wga versus Random",
+    "absolute delta_wga for all methods",
+    "average-accuracy change",
+    "query precision and total correction count",
+    "dynamic baseline-worst-group composition and switching",
+    "query-set overlap and group-wise allocation"
+  ],
+  "prerequisites_before_formal_training": [
+    "Recover the exact scoring.py used by the seed-20--39 run and document whether its hash difference affected any executed path.",
+    "Verify this bundle manifest and targeted tests on the execution machine.",
+    "Seal the seed-40--59 Stage-0 preparation manifest before training.",
+    "Confirm that no formal seed-40--59 WGA result has been generated or inspected."
+  ],
+  "noncontamination_rules": [
+    "Seeds 20-39 generated this method and are development-only.",
+    "Do not replace or add seeds after any formal seed-40--59 end-to-end result is generated.",
+    "Do not change candidate multiplier, anchor fraction, tail fraction, noise, budget, methods, training, or gates under this version.",
+    "Do not inspect partial WGA effects or tune the protocol while formal shards are incomplete.",
+    "A failed primary gate is retained as a null and does not authorize another analysis on seeds 40-59.",
+    "All group-label analyses occur only after query IDs are frozen and are secondary."
+  ],
+  "registration_boundary": {
+    "designed_after_inspecting_seed20_39_v1_results": true,
+    "seed20_39_used_for_confirmation": false,
+    "local_tiny_end_to_end_v2_smoke_completed": true,
+    "local_real_waterbirds_seed40_59_stage0_integrity_completed": true,
+    "formal_seed40_59_end_to_end_results_generated_or_inspected": false
+  },
+  "local_verification": {
+    "full_test_suite": "175 passed, 1 pre-existing sklearn FutureWarning",
+    "packaged_targeted_tests": "35 passed",
+    "package_manifest_failures": 0,
+    "forbidden_data_or_result_payloads": 0,
+    "local_stage0_preparation_manifest_sha256": "e2810c48e203142d3932dc155f98eecae914247b48c1836f18e175bb63436508"
+  }
+}

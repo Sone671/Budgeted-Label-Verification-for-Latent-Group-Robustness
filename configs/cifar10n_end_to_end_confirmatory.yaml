@@ -1,0 +1,62 @@
+# CIFAR-10N: real human-label-noise verification replay.
+# Run Stage 0 once, then rv-end-to-end with this same configuration.
+project:
+  output_dir: outputs/cifar10n_end_to_end_confirmatory
+
+data:
+  dataset: cifar10n
+  root: /absolute/path/to/cifar10n
+  noise_file: CIFAR-10_human.pt
+  noisy_label_variant: worst_label
+  validation_count: 2000
+  download: false
+  materialize_images: true
+
+# Stage 0 needs manifests but this confirmation does not use frozen features.
+features:
+  skip_extraction: true
+
+training:
+  selection_metric: balanced_accuracy
+
+end_to_end:
+  backbone: resnet18
+  pretrained: true
+  input_size: 64
+  augmentation: true
+  batch_size: 256
+  num_workers: 4
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  epochs: 20
+  patience: 5
+  amp: true
+  device: auto
+
+noise:
+  settings:
+    - {name: cifar10n_worst, kind: existing_real}
+
+experiment:
+  seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  budgets: [0.01, 0.02]
+  methods:
+    - random
+    - loss
+    - confident_learning
+    - activeclean_expected_change
+    - active_label_cleaning
+    - noise_score
+    - noise_score_cpba_only
+
+analysis:
+  reference_method: loss
+  methods:
+    - random
+    - confident_learning
+    - activeclean_expected_change
+    - active_label_cleaning
+    - noise_score
+    - noise_score_cpba_only
+  bootstrap_replicates: 10000
+  rng_seed: 20260827

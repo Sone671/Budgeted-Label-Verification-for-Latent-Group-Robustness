@@ -1,0 +1,49 @@
+project:
+  output_dir: outputs/waterbirds_mvp
+
+data:
+  root: /absolute/path/to/waterbirds
+  metadata_csv: metadata.csv
+  split_values:
+    train: 0
+    val: 1
+    test: 2
+
+features:
+  backbone: resnet50
+  pretrained: true
+  batch_size: 64
+  num_workers: 4
+  device: auto
+
+training:
+  epochs: 20
+  batch_size: 256
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  patience: 6
+  selection_metric: balanced_accuracy
+  device: auto
+
+noise:
+  settings:
+    - name: uniform20
+      kind: uniform
+      rate: 0.20
+    - name: minority_high_40
+      kind: group_dependent
+      majority_rate: 0.10
+      minority_rate: 0.40
+
+experiment:
+  seeds: [0, 1, 2, 3, 4]
+  budgets: [0.005, 0.01, 0.02, 0.05]
+  methods:
+    - random
+    - loss
+    - entropy
+    - forgetting
+    - noise_score
+    - oracle_noise
+    - oracle_minority
+    - oracle_group_balanced

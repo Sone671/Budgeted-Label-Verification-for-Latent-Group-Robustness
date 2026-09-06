@@ -1,0 +1,38 @@
+\begin{table}[H]
+\centering
+\caption{CelebA ResNet-50 端到端范围检查的完整四方法审计（uniform20，2\%）。数值是十个外层 seed 的均值，\dwga{} 和相对 Loss 差以百分点计；每个方法均查询 $3{,}255$ 个样本。Random 是实际查询方法，绝对比较对象是同 seed 单独导出的不修正 \texttt{baseline\_wga}。Query precision 和 minority-side query rate 均在 query set 冻结后离线计算，只用于诊断。}
+\label{tab:celeba-e2e-audit-zh}
+\scriptsize
+\setlength{\tabcolsep}{2.8pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Method & \shortstack{$\dwga$ vs\\no correction (pp)} & \shortstack{$\dwga$ vs\\Loss (pp)} & \shortstack{Negative\\seeds} & \shortstack{Mean\\corrections} & \shortstack{Query\\precision} & \shortstack{Offline minority\\query rate} \\
+\midrule
+Random & $+0.04$ & $+0.02$ & $6/10$ & $654.7$ & $20.1\%$ & $1.31\%$ \\
+Loss & $+0.02$ & reference & $3/10$ & $3238.9$ & $99.5\%$ & $2.71\%$ \\
+NoiseScore & $+0.20$ & $+0.18$ & $3/10$ & $1370.6$ & $42.1\%$ & $9.40\%$ \\
+CPBA-only & $+0.38$ & $+0.36$ & $1/10$ & $2915.0$ & $89.6\%$ & $8.19\%$ \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{CelebA ResNet-50 端到端 TracIn-CP (val) 范围检查的完整五方法审计（uniform20，10\%）。数值是十个外层 seed 的均值；\dwga{} 和相对 Loss 差以百分点计，并报告十 seed 95\% t 区间。每个方法均查询 $16{,}277$ 个样本。绝对列使用同 seed 导出的不修正 \texttt{baseline\_wga}，而不是 Random 行；Random 仅是实际查询方法。Query precision 与 minority-side query rate 均在 query set 冻结后离线计算。该运行复用 seed 0--9 manifests，因此是训练机制迁移检查，不是新的独立 seed 确认。}
+\label{tab:celeba-e2e-tracin-audit-zh}
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Method & \shortstack{$\dwga$ vs\\no correction (pp)} & \shortstack{$\dwga$ vs\\Loss (pp)} & \shortstack{Negative\\seeds} & \shortstack{Mean\\corrections} & \shortstack{Query\\precision} & \shortstack{Offline minority\\query rate} \\
+\midrule
+Random & $-0.32\;[-0.82,+0.17]$ & $+0.21\;[-0.45,+0.87]$ & $7/10$ & $3246.7$ & $19.95\%$ & $1.278\%$ \\
+Loss & $-0.53\;[-1.06,-0.01]$ & reference & $5/10$ & $16218.1$ & $99.64\%$ & $0.981\%$ \\
+NoiseScore & $+0.46\;[-0.01,+0.94]$ & $+1.00\;[+0.41,+1.59]$ & $1/10$ & $1867.7$ & $11.47\%$ & $2.443\%$ \\
+CPBA-only & $+0.31\;[-0.25,+0.87]$ & $+0.84\;[+0.21,+1.48]$ & $4/10$ & $12531.0$ & $76.99\%$ & $2.308\%$ \\
+TracIn-CP (val) & $-0.49\;[-0.89,-0.09]$ & $+0.05\;[-0.53,+0.62]$ & $8/10$ & $16231.3$ & $99.72\%$ & $0.043\%$ \\
+\bottomrule
+\end{tabular}}
+\end{table}

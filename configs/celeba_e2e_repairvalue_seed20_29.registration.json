@@ -1,0 +1,75 @@
+{
+  "registration_version": "1.0",
+  "registered_on": "2026-08-02",
+  "status": "registered_awaiting_server_results",
+  "protocol_version": "celeba-e2e-repairvalue-followup-seeds-20-29-v1",
+  "protocol_sha256": "966743a8bfe8e9750aa6c59157ecf58e59797caf83e9083b77729e14628e9df0",
+  "config": {
+    "path": "configs/celeba_e2e_repairvalue_seed20_29.yaml",
+    "sha256": "d6a4581e84c8d2773102ebbe8a07330e77b3a5b4b4684637bb575f2c3cb195a7"
+  },
+  "server_bundle": {
+    "path": "dist/celeba_repairvalue_seed20_29_server.zip",
+    "bytes": 147086,
+    "sha256": "7a7b86c097b415720e73fe4d3696f6ca3da9aec6c91933b19324cb7cd7bcf71e",
+    "package_manifest_sha256": "0881f134f4cdcb2d33e16f130b6eed5e34393973e39edf4c70c516179bf071fc"
+  },
+  "condition": {
+    "dataset": "celeba",
+    "target_attr": "Eyeglasses",
+    "spurious_attr": "Male",
+    "noise": "uniform20",
+    "noise_rate": 0.2,
+    "budget_fraction": 0.1,
+    "seeds": [20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+    "candidate": "expected_repair_value",
+    "paired_query_baseline": "loss",
+    "secondary_methods": ["random", "tracin_val_uncertainty"],
+    "absolute_baseline": "same-seed no-correction ResNet-50"
+  },
+  "method_definition": {
+    "paper_name": "RepairValue-Q (tail)",
+    "noise_posterior_proxy": "NoiseScore",
+    "validation_objective": "class-balanced per-class highest-CE tail",
+    "tail_fraction": 0.2,
+    "value_proxy": "first-order binary label-flip improvement using final-probe penultimate features",
+    "query_score": "noise posterior proxy multiplied by normalized repair-value rank",
+    "query_time_group_labels": false
+  },
+  "primary_estimand": "mean seed-paired delta_wga(expected_repair_value) minus delta_wga(loss)",
+  "primary_gate": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_rng_seed": 20260802,
+    "require_bootstrap_ci_lower_above_zero": true,
+    "min_positive_paired_seeds": 8,
+    "all_conditions_required": true
+  },
+  "secondary_estimands": [
+    "absolute delta_wga versus no correction",
+    "tracin_val_uncertainty paired delta_wga versus loss",
+    "query noise precision",
+    "fixed minority-group query composition",
+    "dynamic baseline-worst-group query/correction composition and group switching"
+  ],
+  "noncontamination_rules": [
+    "Do not replace or add seeds after any formal seed 20-29 end-to-end result is generated.",
+    "Do not change the tail fraction, noise posterior, noise, budget, methods, backbone, batch size, epoch cap, or gate under this protocol version.",
+    "Do not pool exploratory seeds 0-9, TracIn-confirmatory seeds 10-19, or any other run with seeds 20-29.",
+    "The frozen-feature seed 0-9 RepairValue result is the disclosed hypothesis-generating pilot, not confirmation.",
+    "A failed primary gate is retained as a null result and does not authorize another method or hyperparameter search.",
+    "Absolute RepairValue utility and all group-composition analyses are secondary and cannot substitute for the primary paired gate."
+  ],
+  "registration_boundary": {
+    "hypothesis_generated_from_exploratory_seed0_9_screen": true,
+    "local_tiny_end_to_end_repairvalue_smoke_completed": true,
+    "local_real_celeba_stage0_integrity_completed": true,
+    "formal_seed20_29_end_to_end_results_generated_or_inspected": false
+  },
+  "local_verification": {
+    "full_test_suite": "146 passed, 1 pre-existing sklearn FutureWarning",
+    "packaged_targeted_tests": "25 passed",
+    "package_manifest_failures": 0,
+    "forbidden_data_or_result_payloads": 0,
+    "local_stage0_preparation_manifest_sha256": "619ba6d460ef331d75d92239c971b51225be10d480ce3b0b9a2d21ebd909c853"
+  }
+}

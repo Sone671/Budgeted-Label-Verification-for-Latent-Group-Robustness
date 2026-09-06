@@ -1,0 +1,56 @@
+project:
+  output_dir: outputs/ablation_waterbirds_10seeds
+
+data:
+  root: /absolute/path/to/waterbirds
+  metadata_csv: metadata.csv
+  split_values:
+    train: 0
+    val: 1
+    test: 2
+
+features:
+  backbone: resnet50
+  pretrained: true
+  batch_size: 64
+  num_workers: 0
+  device: auto
+
+training:
+  epochs: 5
+  batch_size: 256
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  patience: 3
+  selection_metric: balanced_accuracy
+  device: auto
+
+noise:
+  settings:
+    - name: uniform20
+      kind: uniform
+      rate: 0.20
+    - name: minority_high_40
+      kind: group_dependent
+      majority_rate: 0.10
+      minority_rate: 0.40
+
+experiment:
+  seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  budgets: [0.005, 0.01, 0.02, 0.05, 0.10]
+  cluster_path: outputs/cluster_assignments/clusters_k20.csv
+  methods:
+    - random
+    - loss
+    - entropy
+    - noise_score
+    - noise_score_budget_hybrid
+    - noise_score_budget_hybrid_v8
+    - noise_score_cpba_tc
+    - noise_score_cpba_only
+    - noise_score_tc_only
+    - noise_score_cpba_tc_no_fallback
+    - noise_score_cpba_tc_v8_fallback
+    - noise_score_cpba_tc_entropy_fallback
+    - oracle_noise_group_balanced
+    - oracle_minority

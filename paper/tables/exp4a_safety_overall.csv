@@ -1,0 +1,7 @@
+dataset,noise,n_seed_budget_pairs,worst_seed,worst_seed_mean_difference,worst_condition_budget,worst_condition_mean_difference,mean_conditional_harm,conditions_non_inferior,conditions_total
+CelebA,minority_high_40,25,8,-0.01228661188352744,0.02,-0.01287338863574406,0.015363480750792385,3,5
+CelebA,uniform20,25,9,-0.012618296529968437,0.1,-0.012522880398800479,0.017556063287651864,2,5
+CivilComments,minority_high_40,25,8,0.022641509433962276,0.005,0.007026675341574478,0.0,5,5
+CivilComments,uniform20,25,8,0.03642872799006358,0.005,-0.0016219770585227,0.0,5,5
+Waterbirds,minority_high_40,25,7,0.0,0.005,0.0,0.0482866043613707,4,5
+Waterbirds,uniform20,25,8,0.0344124168514412,0.005,0.0,0.0,5,5

@@ -1,0 +1,11 @@
+method,method_label,Waterbirds,CelebA,CivilComments,Overall,n_total
+random,Random,0.0033,0.0027,0.0027,0.0029,300
+loss,Loss,-0.0194,0.0276,0.0879,0.0320,300
+entropy,Entropy,0.0353,0.0328,0.0117,0.0266,300
+forgetting,Forgetting,nan,nan,nan,nan,300
+noise_score,NoiseScore,0.0108,0.0878,0.0671,0.0552,300
+noise_score_budget_hybrid_v8,NGC,0.0322,0.0872,0.0667,0.0620,300
+noise_score_cpba_only,CPBA-only,0.0255,0.0851,0.1012,0.0706,300
+noise_score_cpba_tc_no_fallback,CPBA-TC-noFB,0.0385,0.0842,0.0993,0.0740,300
+noise_score_cpba_tc_v8_fallback,CPBA-TC-Guarded,0.0349,0.0842,0.0993,0.0728,300
+oracle_noise_group_balanced,Oracle-GB,0.0626,0.0998,0.1184,0.0936,300

@@ -1,0 +1,123 @@
+dataset,noise,method,method_label,n,dWGA_mean,dWGA_sem,dWGA_neg_pct
+Waterbirds,uniform20,random,Random,50,-0.0026,0.0016,58.0
+Waterbirds,uniform20,loss,Loss,50,-0.0123,0.0032,68.0
+Waterbirds,uniform20,entropy,Entropy,50,0.0117,0.004,28.0
+Waterbirds,uniform20,forgetting,Forgetting,40,0.0014,0.0048,40.0
+Waterbirds,uniform20,margin,Margin,40,0.0108,0.0046,25.0
+Waterbirds,uniform20,aum,AUM,40,0.0005,0.0044,32.5
+Waterbirds,uniform20,confident_learning,Cleanlab,40,0.0108,0.0046,25.0
+Waterbirds,uniform20,coreset,Coreset-Lite,40,-0.0179,0.0052,70.0
+Waterbirds,uniform20,uncertainty_diversity,Unc+Div-Lite,40,-0.0106,0.0045,67.5
+Waterbirds,uniform20,badge_lite,BADGE-Lite,40,0.0085,0.005,40.0
+Waterbirds,uniform20,tracin_val_uncertainty,TracIn-CP (val),40,-0.0263,0.0066,75.0
+Waterbirds,uniform20,tracin_noise_weighted,TracIn-CP (noise),40,-0.0291,0.0064,75.0
+Waterbirds,uniform20,noise_score,NoiseScore,50,-0.023,0.0106,44.0
+Waterbirds,uniform20,noise_score_budget_hybrid,BHC,50,0.0183,0.0067,24.0
+Waterbirds,uniform20,NGC,NGC,50,0.0183,0.0067,24.0
+Waterbirds,uniform20,noise_score_cpba_tc,CPBA-TC,50,-0.0068,0.0112,34.0
+Waterbirds,uniform20,CPBA-only,CPBA-only,50,-0.0171,0.0102,42.0
+Waterbirds,uniform20,noise_score_tc_only,TC-only,50,0.0057,0.0079,34.0
+Waterbirds,uniform20,CPBA-TC-noFB,CPBA-TC-noFB,50,0.009,0.0075,30.0
+Waterbirds,uniform20,CPBA-TC-Guarded,CPBA-TC-Safe,50,0.0152,0.0067,28.0
+Waterbirds,uniform20,oracle_noise_group_balanced,Oracle-GB,50,0.0361,0.0069,12.0
+Waterbirds,minority_high_40,random,Random,50,0.0093,0.0047,44.0
+Waterbirds,minority_high_40,loss,Loss,50,-0.0266,0.0097,78.0
+Waterbirds,minority_high_40,entropy,Entropy,50,0.0589,0.0106,12.0
+Waterbirds,minority_high_40,forgetting,Forgetting,40,0.047,0.0086,15.0
+Waterbirds,minority_high_40,margin,Margin,40,0.0024,0.0082,42.5
+Waterbirds,minority_high_40,aum,AUM,40,0.0073,0.0079,35.0
+Waterbirds,minority_high_40,confident_learning,Cleanlab,40,0.0024,0.0082,42.5
+Waterbirds,minority_high_40,coreset,Coreset-Lite,40,0.0049,0.0033,27.5
+Waterbirds,minority_high_40,uncertainty_diversity,Unc+Div-Lite,40,0.0372,0.0078,22.5
+Waterbirds,minority_high_40,badge_lite,BADGE-Lite,40,0.0184,0.0064,35.0
+Waterbirds,minority_high_40,tracin_val_uncertainty,TracIn-CP (val),40,0.002,0.0097,50.0
+Waterbirds,minority_high_40,tracin_noise_weighted,TracIn-CP (noise),40,0.0277,0.0121,42.5
+Waterbirds,minority_high_40,noise_score,NoiseScore,50,0.0446,0.0077,12.0
+Waterbirds,minority_high_40,noise_score_budget_hybrid,BHC,50,0.0402,0.0062,6.0
+Waterbirds,minority_high_40,NGC,NGC,50,0.0461,0.0078,12.0
+Waterbirds,minority_high_40,noise_score_cpba_tc,CPBA-TC,50,0.0546,0.0102,12.0
+Waterbirds,minority_high_40,CPBA-only,CPBA-only,50,0.0681,0.0102,4.0
+Waterbirds,minority_high_40,noise_score_tc_only,TC-only,50,0.0407,0.0064,6.0
+Waterbirds,minority_high_40,CPBA-TC-noFB,CPBA-TC-noFB,50,0.068,0.0099,4.0
+Waterbirds,minority_high_40,CPBA-TC-Guarded,CPBA-TC-Safe,50,0.0546,0.0102,12.0
+Waterbirds,minority_high_40,oracle_noise_group_balanced,Oracle-GB,50,0.089,0.0115,6.0
+CelebA,uniform20,random,Random,50,-0.0016,0.0019,46.0
+CelebA,uniform20,loss,Loss,50,0.0454,0.0032,0.0
+CelebA,uniform20,entropy,Entropy,50,0.0185,0.0021,8.0
+CelebA,uniform20,forgetting,Forgetting,40,0.0876,0.0051,0.0
+CelebA,uniform20,margin,Margin,40,0.0403,0.0032,0.0
+CelebA,uniform20,aum,AUM,40,0.0301,0.0033,5.0
+CelebA,uniform20,confident_learning,Cleanlab,40,0.0403,0.0032,0.0
+CelebA,uniform20,uncertainty_diversity,Unc+Div-Lite,40,0.0172,0.0035,15.0
+CelebA,uniform20,badge_lite,BADGE-Lite,40,0.0383,0.0034,0.0
+CelebA,uniform20,tracin_val_uncertainty,TracIn-CP (val),40,0.0007,0.002,30.0
+CelebA,uniform20,tracin_noise_weighted,TracIn-CP (noise),40,0.0162,0.0024,12.5
+CelebA,uniform20,noise_score,NoiseScore,50,0.0739,0.0032,0.0
+CelebA,uniform20,noise_score_budget_hybrid,BHC,50,0.0726,0.003,0.0
+CelebA,uniform20,NGC,NGC,50,0.0726,0.003,0.0
+CelebA,uniform20,noise_score_cpba_tc,CPBA-TC,50,0.0681,0.0033,0.0
+CelebA,uniform20,CPBA-only,CPBA-only,50,0.0688,0.0033,0.0
+CelebA,uniform20,noise_score_tc_only,TC-only,50,0.0726,0.003,0.0
+CelebA,uniform20,CPBA-TC-noFB,CPBA-TC-noFB,50,0.0681,0.0033,0.0
+CelebA,uniform20,CPBA-TC-Guarded,CPBA-TC-Safe,50,0.0681,0.0033,0.0
+CelebA,uniform20,oracle_noise_group_balanced,Oracle-GB,50,0.0856,0.006,0.0
+CelebA,minority_high_40,random,Random,50,0.0071,0.0016,12.0
+CelebA,minority_high_40,loss,Loss,50,0.0097,0.0025,18.0
+CelebA,minority_high_40,entropy,Entropy,50,0.0471,0.0038,0.0
+CelebA,minority_high_40,forgetting,Forgetting,40,0.08,0.0039,0.0
+CelebA,minority_high_40,margin,Margin,40,0.004,0.0027,30.0
+CelebA,minority_high_40,aum,AUM,40,-0.009,0.0045,50.0
+CelebA,minority_high_40,confident_learning,Cleanlab,40,0.004,0.0027,30.0
+CelebA,minority_high_40,uncertainty_diversity,Unc+Div-Lite,40,0.0302,0.0038,2.5
+CelebA,minority_high_40,badge_lite,BADGE-Lite,40,0.0033,0.0026,32.5
+CelebA,minority_high_40,tracin_val_uncertainty,TracIn-CP (val),40,-0.0267,0.0051,82.5
+CelebA,minority_high_40,tracin_noise_weighted,TracIn-CP (noise),40,-0.0091,0.0035,52.5
+CelebA,minority_high_40,noise_score,NoiseScore,50,0.1017,0.0034,0.0
+CelebA,minority_high_40,noise_score_budget_hybrid,BHC,50,0.1,0.0031,0.0
+CelebA,minority_high_40,NGC,NGC,50,0.1017,0.0034,0.0
+CelebA,minority_high_40,noise_score_cpba_tc,CPBA-TC,50,0.1003,0.004,0.0
+CelebA,minority_high_40,CPBA-only,CPBA-only,50,0.1014,0.0041,0.0
+CelebA,minority_high_40,noise_score_tc_only,TC-only,50,0.1,0.0031,0.0
+CelebA,minority_high_40,CPBA-TC-noFB,CPBA-TC-noFB,50,0.1003,0.004,0.0
+CelebA,minority_high_40,CPBA-TC-Guarded,CPBA-TC-Safe,50,0.1003,0.004,0.0
+CelebA,minority_high_40,oracle_noise_group_balanced,Oracle-GB,50,0.1141,0.0058,0.0
+CivilComments,uniform20,random,Random,50,0.0014,0.0004,44.0
+CivilComments,uniform20,loss,Loss,50,0.1115,0.0085,0.0
+CivilComments,uniform20,entropy,Entropy,50,0.0097,0.001,10.0
+CivilComments,uniform20,forgetting,Forgetting,40,0.0758,0.0074,0.0
+CivilComments,uniform20,margin,Margin,40,0.0719,0.0062,0.0
+CivilComments,uniform20,aum,AUM,40,0.0606,0.0055,0.0
+CivilComments,uniform20,confident_learning,Cleanlab,40,0.0719,0.0062,0.0
+CivilComments,uniform20,uncertainty_diversity,Unc+Div-Lite,40,0.0086,0.0007,0.0
+CivilComments,uniform20,badge_lite,BADGE-Lite,40,0.0714,0.0063,0.0
+CivilComments,uniform20,tracin_val_uncertainty,TracIn-CP (val),40,0.0107,0.0007,0.0
+CivilComments,uniform20,tracin_noise_weighted,TracIn-CP (noise),40,0.0444,0.004,0.0
+CivilComments,uniform20,noise_score,NoiseScore,50,0.0839,0.0053,0.0
+CivilComments,uniform20,noise_score_budget_hybrid,BHC,50,0.083,0.0054,0.0
+CivilComments,uniform20,NGC,NGC,50,0.083,0.0054,0.0
+CivilComments,uniform20,noise_score_cpba_tc,CPBA-TC,50,0.1212,0.01,0.0
+CivilComments,uniform20,CPBA-only,CPBA-only,50,0.1211,0.0099,0.0
+CivilComments,uniform20,noise_score_tc_only,TC-only,50,0.0832,0.0054,0.0
+CivilComments,uniform20,CPBA-TC-noFB,CPBA-TC-noFB,50,0.1212,0.01,0.0
+CivilComments,uniform20,CPBA-TC-Guarded,CPBA-TC-Safe,50,0.1212,0.01,0.0
+CivilComments,uniform20,oracle_noise_group_balanced,Oracle-GB,50,0.1308,0.0118,0.0
+CivilComments,minority_high_40,random,Random,50,0.004,0.0008,12.0
+CivilComments,minority_high_40,loss,Loss,50,0.0644,0.0043,0.0
+CivilComments,minority_high_40,entropy,Entropy,50,0.0136,0.0015,0.0
+CivilComments,minority_high_40,forgetting,Forgetting,40,0.0371,0.0038,0.0
+CivilComments,minority_high_40,margin,Margin,40,0.0354,0.0029,0.0
+CivilComments,minority_high_40,aum,AUM,40,0.0311,0.0027,0.0
+CivilComments,minority_high_40,confident_learning,Cleanlab,40,0.0354,0.0029,0.0
+CivilComments,minority_high_40,uncertainty_diversity,Unc+Div-Lite,40,0.0054,0.0006,0.0
+CivilComments,minority_high_40,badge_lite,BADGE-Lite,40,0.0353,0.0029,0.0
+CivilComments,minority_high_40,tracin_val_uncertainty,TracIn-CP (val),40,0.0124,0.0012,0.0
+CivilComments,minority_high_40,tracin_noise_weighted,TracIn-CP (noise),40,0.0199,0.0028,0.0
+CivilComments,minority_high_40,noise_score,NoiseScore,50,0.0503,0.004,0.0
+CivilComments,minority_high_40,noise_score_budget_hybrid,BHC,50,0.0457,0.0033,0.0
+CivilComments,minority_high_40,NGC,NGC,50,0.0503,0.004,0.0
+CivilComments,minority_high_40,noise_score_cpba_tc,CPBA-TC,50,0.0774,0.0062,0.0
+CivilComments,minority_high_40,CPBA-only,CPBA-only,50,0.0813,0.0069,0.0
+CivilComments,minority_high_40,noise_score_tc_only,TC-only,50,0.0457,0.0033,0.0
+CivilComments,minority_high_40,CPBA-TC-noFB,CPBA-TC-noFB,50,0.0774,0.0062,0.0
+CivilComments,minority_high_40,CPBA-TC-Guarded,CPBA-TC-Safe,50,0.0774,0.0062,0.0
+CivilComments,minority_high_40,oracle_noise_group_balanced,Oracle-GB,50,0.106,0.0085,0.0

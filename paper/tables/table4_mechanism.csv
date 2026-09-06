@@ -1,0 +1,10 @@
+dataset,metric,spearman_rho,p_value,n_methods
+Waterbirds,noise_precision,-0.267,0.3559,14
+Waterbirds,minority_q,0.501,0.0679,14
+Waterbirds,group_entropy,0.298,0.3007,14
+CelebA,noise_precision,-0.18,0.5759,12
+CelebA,minority_q,0.604,0.0374,12
+CelebA,group_entropy,0.504,0.0951,12
+CivilComments,noise_precision,0.744,0.0056,12
+CivilComments,minority_q,-0.423,0.1701,12
+CivilComments,group_entropy,-0.359,0.2512,12

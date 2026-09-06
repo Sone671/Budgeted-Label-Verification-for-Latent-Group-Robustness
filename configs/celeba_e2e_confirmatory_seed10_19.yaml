@@ -1,0 +1,64 @@
+# Frozen independent confirmation of the CelebA uniform20 / 10% TracIn-CP
+# contrast. Scientific fields are validated in robust_verify.celeba_confirmatory;
+# the server launcher permits only data/output path overrides.
+confirmation:
+  protocol_version: celeba-e2e-tracin-heldout-seeds-10-19-v1
+  role: independent_confirmatory
+  primary_method: tracin_val_uncertainty
+  primary_estimand: mean_seed_paired_delta_wga_vs_no_correction
+  primary_gate:
+    require_bootstrap_ci_upper_below_zero: true
+    min_negative_seeds: 8
+    min_mean_noise_precision: 0.99
+
+project:
+  output_dir: outputs/celeba_e2e_confirmatory_seed10_19
+
+data:
+  dataset: celeba
+  # Portable default. Override only this path with --data-root on the server.
+  root: data/celebA_v1.0
+  metadata_csv: list_attr_celeba.csv
+  partition_csv: list_eval_partition.csv
+  target_attr: Eyeglasses
+  spurious_attr: Male
+  image_subdir: img_align_celeba
+  minority_mode: group_id
+  minority_group: 3
+  split_values:
+    train: 0
+    val: 1
+    test: 2
+
+features:
+  # Stage 0 creates only manifests; the E2E runner trains ResNet-50 directly.
+  skip_extraction: true
+
+training:
+  selection_metric: balanced_accuracy
+
+end_to_end:
+  backbone: resnet50
+  pretrained: true
+  input_size: 224
+  augmentation: true
+  batch_size: 48
+  num_workers: 4
+  learning_rate: 0.00003
+  weight_decay: 0.0001
+  epochs: 10
+  patience: 3
+  amp: true
+  device: cuda
+  deterministic: true
+
+noise:
+  settings:
+    - {name: uniform20, kind: uniform, rate: 0.20}
+
+experiment:
+  seeds: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+  budgets: [0.10]
+  methods:
+    - loss
+    - tracin_val_uncertainty

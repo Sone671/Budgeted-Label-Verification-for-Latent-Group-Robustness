@@ -1,0 +1,15 @@
+dataset,noise,budget,method,method_label,n_seeds,dWGA_mean,dWGA_sem,dWGA_neg_pct
+Waterbirds,uniform20,5%,noise_score,NoiseScore,10,-0.0497,0.0198,80.0
+Waterbirds,uniform20,5%,noise_score_cpba_only,CPBA-only,10,-0.0497,0.0198,80.0
+Waterbirds,uniform20,5%,noise_score_tc_only,TC-only,10,0.0262,0.0236,30.0
+Waterbirds,uniform20,5%,noise_score_cpba_tc,CPBA-TC,10,-0.0109,0.0325,50.0
+Waterbirds,uniform20,5%,noise_score_cpba_tc_no_fallback,CPBA-TC-noFB,10,0.0274,0.0218,30.0
+Waterbirds,uniform20,5%,noise_score_cpba_tc_v8_fallback,CPBA-TC-Safe,10,0.0482,0.0147,20.0
+Waterbirds,uniform20,5%,oracle_noise_group_balanced,Oracle-GB,10,0.088,0.0153,0.0
+CivilComments,uniform20,5%,noise_score,NoiseScore,10,0.112,0.001,0.0
+CivilComments,uniform20,5%,noise_score_cpba_only,CPBA-only,10,0.188,0.0018,0.0
+CivilComments,uniform20,5%,noise_score_tc_only,TC-only,10,0.1021,0.0011,0.0
+CivilComments,uniform20,5%,noise_score_cpba_tc,CPBA-TC,10,0.1802,0.0018,0.0
+CivilComments,uniform20,5%,noise_score_cpba_tc_no_fallback,CPBA-TC-noFB,10,0.1802,0.0018,0.0
+CivilComments,uniform20,5%,noise_score_cpba_tc_v8_fallback,CPBA-TC-Safe,10,0.1802,0.0018,0.0
+CivilComments,uniform20,5%,oracle_noise_group_balanced,Oracle-GB,10,0.1806,0.0031,0.0

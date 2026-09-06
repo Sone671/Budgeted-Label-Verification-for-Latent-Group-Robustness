@@ -1,0 +1,4 @@
+method,label,Waterbirds_wga,Waterbirds_sem,CelebA_wga,CelebA_sem,CivilComments_wga,CivilComments_sem
+erm,ERM (noisy labels),0.5514,0.0183,0.6588,0.0093,0.0625,0.0027
+oracle_groupdro,Oracle GroupDRO,0.7208,0.0259,0.8538,0.0138,0.6607,0.0036
+jtt,JTT,0.2191,0.0388,0.1095,0.0283,0.0071,0.0016

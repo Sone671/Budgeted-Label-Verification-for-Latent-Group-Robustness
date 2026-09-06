@@ -1,0 +1,12 @@
+method,mean_dwga
+random,0.0013084112149532722
+loss,-0.02969511849748909
+entropy,0.037601246105918966
+noise_score,0.02298993582968965
+oracle_noise_group_balanced,0.07079050362296313
+margin,-0.02969511849748909
+nn_agreement,-0.03093457943925231
+noise_score_budget_hybrid_v8,0.04197290893894495
+noise_score_cpba_only,0.03812302187592818
+noise_score_cpba_tc_no_fallback,0.044219974994992084
+noise_score_cpba_tc_v8_fallback,0.040556437408044425

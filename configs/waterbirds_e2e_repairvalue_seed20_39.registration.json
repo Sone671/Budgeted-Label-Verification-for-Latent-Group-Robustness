@@ -1,0 +1,116 @@
+{
+  "registration_version": "1.0",
+  "registered_on": "2026-08-04",
+  "status": "registered_awaiting_server_results",
+  "protocol_version": "waterbirds-e2e-repairvalue-confirmatory-seeds-20-39-v1",
+  "protocol_sha256": "49b9de9dfca27a19a2536f39b408b253e0233967ba27423ac5bf6c30cc1e2b9e",
+  "config": {
+    "path": "configs/waterbirds_e2e_repairvalue_seed20_39.yaml",
+    "bytes": 1721,
+    "sha256": "393e5441b16c55dac7c79631e2c4c5bcac2c858c11756801b8464952ae9ad20b"
+  },
+  "server_bundle": {
+    "path": "dist/waterbirds_repairvalue_seed20_39_server.zip",
+    "bytes": 154908,
+    "sha256": "1ad102733072c3d7579a712a9ed7434556ca622f3a680a091d6523c88b08a4fe",
+    "package_manifest_sha256": "2ef17d6f960349d9fbf869bbdfb5b223279956e42ff7c5d07f46515dcbdaccab"
+  },
+  "condition": {
+    "dataset": "waterbirds",
+    "target": "bird type",
+    "spurious_attribute": "background",
+    "noise": "uniform20",
+    "noise_rate": 0.2,
+    "budget_fraction": 0.1,
+    "budget_count": 480,
+    "seeds": [
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39
+    ],
+    "candidate": "expected_repair_value",
+    "paired_query_baseline": "loss",
+    "secondary_methods": [
+      "random",
+      "noise_score",
+      "tracin_val_uncertainty"
+    ],
+    "absolute_baseline": "same-seed no-correction ResNet-50"
+  },
+  "method_definition": {
+    "paper_name": "RepairValue-Q (tail)",
+    "noise_posterior_proxy": "NoiseScore",
+    "validation_objective": "class-balanced per-class highest-cross-entropy tail",
+    "tail_fraction": 0.2,
+    "value_proxy": "first-order binary label-flip improvement using final-probe penultimate features",
+    "query_score": "noise posterior proxy multiplied by normalized repair-value rank",
+    "query_time_group_labels": false
+  },
+  "training": {
+    "backbone": "pretrained ResNet-50",
+    "full_parameter_retraining": true,
+    "batch_size": 48,
+    "learning_rate": 0.00003,
+    "weight_decay": 0.0001,
+    "epoch_cap": 10,
+    "patience": 3,
+    "checkpoint_selection": "public validation balanced accuracy",
+    "deterministic": true,
+    "shared_initialization_within_seed": true
+  },
+  "primary_estimand": "mean seed-paired delta_wga(expected_repair_value) minus delta_wga(loss)",
+  "primary_gate": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_rng_seed": 20260804,
+    "require_paired_bootstrap_ci_lower_above_zero": true,
+    "min_positive_paired_seeds": 15,
+    "require_absolute_bootstrap_ci_lower_above_zero": true,
+    "all_conditions_required": true
+  },
+  "secondary_estimands": [
+    "RepairValue-Q paired delta_wga versus Random",
+    "RepairValue-Q paired delta_wga versus NoiseScore",
+    "TracIn paired delta_wga versus Loss",
+    "query noise precision",
+    "dynamic baseline-worst-group query/correction composition and group switching"
+  ],
+  "noncontamination_rules": [
+    "Do not replace or add seeds after any formal Waterbirds seed 20-39 end-to-end result is generated.",
+    "Do not change the tail fraction, noise posterior, noise, budget, methods, backbone, batch size, epoch cap, or gates under this protocol version.",
+    "Do not pool Waterbirds seeds 10-19, any CelebA seed block, or any exploratory run with Waterbirds seeds 20-39.",
+    "Do not inspect partial WGA effects or tune the protocol while formal shards are incomplete.",
+    "A failed primary gate is retained as a null result and does not authorize another seed block or hyperparameter search.",
+    "Random, NoiseScore, TracIn, precision, and all group-composition analyses are secondary and cannot substitute for the three primary gates."
+  ],
+  "registration_boundary": {
+    "hypothesis_generated_before_waterbirds_seed20_39_results": true,
+    "prior_waterbirds_seed10_19_followup_disclosed": true,
+    "local_tiny_end_to_end_repairvalue_smoke_completed": true,
+    "local_real_waterbirds_stage0_integrity_completed": true,
+    "formal_seed20_39_end_to_end_results_generated_or_inspected": false
+  },
+  "local_verification": {
+    "full_test_suite": "156 passed, 1 pre-existing sklearn FutureWarning",
+    "packaged_targeted_tests": "26 passed",
+    "package_manifest_failures": 0,
+    "forbidden_data_or_result_payloads": 0,
+    "local_stage0_preparation_manifest_sha256": "2f9764fde6725c77566c82b679f702d6689a57a8ef567b3293195c8c1422561e"
+  }
+}

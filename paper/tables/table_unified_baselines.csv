@@ -1,0 +1,22 @@
+method,label,mean_dwga,note
+random,Random,0.003317729379502814,
+loss,Loss,-0.019436641316285686,
+entropy,Entropy,0.035321176202416205,
+forgetting,Forgetting,-0.008838317066263257,
+noise_score,NoiseScore,0.010798122552168585,
+oracle_noise_group_balanced,Oracle-GB,0.06255092525436722,
+aum,AUM,-0.03327102803738314,
+confident_learning,Cleanlab,-0.019436641316285686,
+margin,Margin,-0.019436641316285686,
+coreset,Coreset-Lite,0.005184822927243724,
+uncertainty_diversity,Unc+Div-Lite,0.025397683237665,
+badge_lite,BADGE-Lite,-0.01635043620614624,
+tracin_val_uncertainty,TracIn-CP (val),-0.06338006230529591,
+tracin_noise_weighted,TracIn-CP (noise),-0.038264749155562904,
+noise_score_budget_hybrid_v8,NGC,0.03218231551899205,
+noise_score_cpba_only,CPBA-only,0.025500825441559415,
+noise_score_cpba_tc_no_fallback,CPBA-TC-noFB,0.03847063293062836,
+noise_score_cpba_tc_v8_fallback,CPBA-TC-Guarded,0.034897417300426184,
+erm,Model-erm,0.5299844236760125,abs_WGA
+oracle_groupdro,Model-oracle_groupdro,0.7184481007936672,abs_WGA
+jtt,Model-jtt,0.11503847455636829,abs_WGA

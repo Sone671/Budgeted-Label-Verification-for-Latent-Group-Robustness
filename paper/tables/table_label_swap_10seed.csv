@@ -1,0 +1,5 @@
+noise,method,swapped,original,sem_swapped,sem_original,mean_diff,ci_low,ci_high,n_seeds
+# Updated label-swap 10-seed paired per-noise results.
+# Compared seed-by-seed with outputs/ablation_waterbirds_10seeds/stage1/results.csv.
+# CI = 95% paired t-test CI at seed level.
+# Run: python scripts/analyze_label_swap_paired.py

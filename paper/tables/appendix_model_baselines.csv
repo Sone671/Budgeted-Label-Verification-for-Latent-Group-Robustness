@@ -1,0 +1,19 @@
+dataset,noise,method,method_label,n_seeds,WGA_mean,WGA_sem,WGA_min,WGA_max
+Waterbirds,uniform20,erm,ERM,10,0.6167,0.0102,0.5717,0.6729
+Waterbirds,minority_high_40,erm,ERM,10,0.4862,0.0189,0.3349,0.553
+Waterbirds,uniform20,oracle_groupdro,Oracle GroupDRO,10,0.8251,0.0082,0.7849,0.8614
+Waterbirds,minority_high_40,oracle_groupdro,Oracle GroupDRO,10,0.6166,0.0189,0.5218,0.6749
+Waterbirds,uniform20,jtt,JTT,10,0.0573,0.0191,0.0031,0.1743
+Waterbirds,minority_high_40,jtt,JTT,10,0.3809,0.0129,0.3428,0.4548
+CelebA,uniform20,erm,ERM,10,0.6964,0.0065,0.6625,0.7256
+CelebA,minority_high_40,erm,ERM,10,0.6211,0.0026,0.6088,0.6341
+CelebA,uniform20,oracle_groupdro,Oracle GroupDRO,10,0.9096,0.0025,0.8959,0.918
+CelebA,minority_high_40,oracle_groupdro,Oracle GroupDRO,10,0.7981,0.0105,0.7256,0.8326
+CelebA,uniform20,jtt,JTT,10,0.0004,0.0001,0.0002,0.0008
+CelebA,minority_high_40,jtt,JTT,10,0.2186,0.0272,0.0673,0.3598
+CivilComments,uniform20,erm,ERM,10,0.0736,0.0015,0.0671,0.0829
+CivilComments,minority_high_40,erm,ERM,10,0.0514,0.0009,0.0462,0.0547
+CivilComments,uniform20,oracle_groupdro,Oracle GroupDRO,10,0.6721,0.0026,0.657,0.6828
+CivilComments,minority_high_40,oracle_groupdro,Oracle GroupDRO,10,0.6493,0.0043,0.622,0.6656
+CivilComments,uniform20,jtt,JTT,10,0.0001,0.0,0.0,0.0003
+CivilComments,minority_high_40,jtt,JTT,10,0.0141,0.0004,0.0123,0.0162

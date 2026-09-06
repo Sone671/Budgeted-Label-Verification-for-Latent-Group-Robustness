@@ -1,0 +1,50 @@
+# Protocol-matched end-to-end repair test for the frozen CelebA TracIn-CP (val)
+# contrast.  This source directory contains manifests for seeds 0--9.  For an
+# independent confirmatory run, regenerate manifests for new seeds (for example
+# 10--19), then change project.input_dir and experiment.seeds before execution.
+project:
+  output_dir: outputs/celeba_e2e_tracin_uniform20_10pct
+  input_dir: outputs/ablation_celeba_10seeds
+
+data:
+  dataset: celeba
+  root: /absolute/path/to/celebA_v1.0
+  target_attr: Eyeglasses
+  spurious_attr: Male
+  minority_mode: group_id
+  minority_group: 3
+
+features:
+  # The runner consumes only the source manifests and trains its own probe.
+  skip_extraction: true
+
+training:
+  selection_metric: balanced_accuracy
+
+end_to_end:
+  backbone: resnet50
+  pretrained: true
+  input_size: 224
+  augmentation: true
+  batch_size: 48
+  num_workers: 4
+  learning_rate: 0.00003
+  weight_decay: 0.0001
+  epochs: 10
+  patience: 3
+  amp: true
+  device: auto
+
+noise:
+  settings:
+    - {name: uniform20, kind: uniform, rate: 0.20}
+
+experiment:
+  seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  budgets: [0.10]
+  methods:
+    - random
+    - loss
+    - noise_score
+    - noise_score_cpba_only
+    - tracin_val_uncertainty

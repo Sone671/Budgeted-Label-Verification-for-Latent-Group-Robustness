@@ -1,0 +1,66 @@
+# Prospectively frozen Waterbirds confirmation of noise-gated RepairValue-Q v2.
+# The design was fixed after inspecting the disclosed seed-20--39 v1 failure.
+# Only data/output paths may be overridden by the formal server runner.
+confirmation:
+  protocol_version: waterbirds-e2e-repairvalue-v2-seeds-40-59-v1
+  role: prospective_method_confirmation
+  hypothesis_origin: posthoc_diagnosis_of_waterbirds_seed20_39_repairvalue_v1_failure
+  primary_method: noise_gated_repair_value
+  paired_baseline: noise_score
+  primary_estimand: mean_seed_paired_delta_wga_difference_vs_noise_score
+  primary_gate:
+    require_bootstrap_ci_lower_above_zero: true
+    require_absolute_ci_lower_above_zero: true
+    min_positive_paired_seeds: 15
+    precision_noninferiority_margin: 0.10
+
+project:
+  output_dir: outputs/waterbirds_e2e_repairvalue_v2_seed40_59
+
+data:
+  dataset: waterbirds
+  root: data/waterbirds_v1.0
+  metadata_csv: metadata.csv
+  split_values:
+    train: 0
+    val: 1
+    test: 2
+
+features:
+  skip_extraction: true
+
+training:
+  selection_metric: balanced_accuracy
+
+end_to_end:
+  backbone: resnet50
+  pretrained: true
+  input_size: 224
+  augmentation: true
+  batch_size: 48
+  num_workers: 4
+  learning_rate: 0.00003
+  weight_decay: 0.0001
+  epochs: 10
+  patience: 3
+  amp: true
+  device: cuda
+  deterministic: true
+
+noise:
+  settings:
+    - {name: uniform20, kind: uniform, rate: 0.20}
+
+experiment:
+  seeds: [40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+  budgets: [0.10]
+  baseline_options:
+    repair_value_tail_fraction: 0.20
+    repair_value_candidate_multiplier: 2.0
+    repair_value_noise_anchor_fraction: 0.50
+  methods:
+    - random
+    - loss
+    - noise_score
+    - expected_repair_value
+    - noise_gated_repair_value
