@@ -1,4 +1,0 @@
-dataset,method,label,mean_5epoch,sem_5epoch,mean_30epoch,sem_30epoch,diff_30vs5,diff_ci_low,diff_ci_high,n_seeds,n_conditions_5,n_conditions_30
-# Placeholder emitted by the legacy generate_unified_tables.py workflow.
-# The authoritative complete sensitivity summary is table_30epoch_sensitivity.csv.
-# Do not use this file as a source for the manuscript.

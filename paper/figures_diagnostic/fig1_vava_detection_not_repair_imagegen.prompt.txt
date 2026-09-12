@@ -1,7 +1,0 @@
-Use case: infographic-diagram
-Asset type: Figure 1 for a top-tier machine learning conference paper (ICLR/NeurIPS style)
-Reference: the supplied overview figure was used for composition only; the result was redesigned.
-Primary request: Create a publication-ready scientific overview figure for "Detection Is Not Repair: Value-Aligned Label Verification for Worst-Group Robustness." Show that, under a fixed human review budget, detecting likely label errors is not the same objective as improving worst-group accuracy after retraining.
-Layout: wide two-tier diagram. Top: Noisy training set -> Pre-query observables -> Budgeted query set Q -> Verify & correct -> Retrain from shared initialization -> Group evaluation / Repair utility Delta WGA. Mark acquisition as having no group labels and group labels as evaluation-only. Bottom: DETECTION != REPAIR, branching the same fixed budget into Detection-only / NoiseScore / mostly majority-group corrections / small or unstable Delta WGA versus Value-aligned verification / RV-Q score s_i = rho_i r_i / more weak-group corrections / larger Delta WGA. Define r_i as validation-tail repair value.
-Style: precise flat vector-like ML-paper diagram on white, crisp charcoal strokes, restrained blue/amber/red/green palette, compact sans-serif type, generous whitespace, no gradients, shadows, decoration, logos, or watermark.
-Constraints: exact terminology, legible at paper-column scale, aligned boxes and unobstructed arrows, no overlap or clipped text, no invented metrics, and do not depict RV-Q as a WGA gradient.

@@ -1,5 +1,0 @@
-dataset,noise,budget,method,mean_weak_group_queries,mean_weak_group_corrections,mean_other_corrections,mean_weak_group_accuracy_change,mean_wga_change
-waterbirds,minority_high_40,0.02,loss,0.1,0.0,95.2,0.00886254843856849,0.0006907460748354188
-waterbirds,minority_high_40,0.02,noise_score_cpba_only,11.2,7.1,53.0,0.12784908579756996,0.10066836590201075
-celeba,uniform20,0.02,loss,95.0,90.9,3120.8,0.04132492113564669,0.040496683153535586
-celeba,uniform20,0.02,noise_score,232.2,232.2,886.4,0.0615141955835962,0.0615141955835962

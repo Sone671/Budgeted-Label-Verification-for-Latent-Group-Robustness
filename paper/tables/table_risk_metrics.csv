@@ -1,4 +1,0 @@
-method,label,dataset,noise_name,budget_fraction,mean_dwga,sem_dwga,neg_seed_pct,worst_seed,mean_delta_avg_acc,worst_group_acc_change,n_seeds,mean_noise_precision,mean_minority_query_rate
-# Full per-condition risk and side-effect audit.
-# Includes mean delta average accuracy and max per-group accuracy change.
-# Run: python scripts/p0_risk_metrics.py (updated with per-condition breakdown)
