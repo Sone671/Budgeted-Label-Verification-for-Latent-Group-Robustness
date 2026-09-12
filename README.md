@@ -1,219 +1,195 @@
 # Budgeted Label Verification for Latent-Group Robustness
 
-This repository implements the **Stage 0–1 MVP**:
+This repository contains a self-contained Stage 0-1 implementation for studying
+budgeted label verification when group membership is not available to the deployed
+selection rule.
 
-- Waterbirds metadata ingestion;
-- public/private information separation;
-- fixed uniform or group-dependent label corruption;
-- frozen ImageNet ResNet-50 feature extraction;
-- a shared linear probe with per-example training dynamics;
-- random, loss, entropy, forgetting, and noise-likelihood querying;
-- analysis-only noise, minority-aware, and group-balanced oracles;
-- correction-only retraining from an identical initialization;
-- average accuracy, group accuracies, WGA, query composition, and budget curves.
+The pipeline separates public information from private evaluation information and
+measures whether selecting the most suspicious labels is the same as selecting the
+labels whose correction most improves worst-group accuracy (WGA). In general, these
+objectives need not agree:
 
-The central diagnostic is whether
+~~~
+maximise the number of corrected labels != maximise the improvement in WGA
+~~~
 
-\[
-\arg\max_Q \#\{\text{corrected labels}\}
-\neq
-\arg\max_Q \Delta \mathrm{WGA}.
-\]
+The repository is intended to be used without author-specific metadata. It does not
+include the manuscript or documentation directories; the code, configurations, tests,
+and runnable experiment scripts are the relevant artifacts.
 
-This code intentionally does **not** use group labels in model training, score calculation,
-query selection for legal methods, validation checkpoint selection, or hyperparameter tuning.
-Private group labels are available only to corruption generation, analysis-only oracles, and
-the final evaluator.
+## Repository map
 
-## Reviewer Quick Path
+~~~
+src/robust_verify/       Core Python package and command-line entry points
+configs/                 Example experiment configurations
+scripts/                 Extended analyses and server-side runners
+tests/                   Unit and end-to-end smoke tests
+pyproject.toml           Package metadata and dependencies
+requirements.txt         Pinned/explicit runtime requirements
+LICENSE                  MIT license
+~~~
 
-If you are reviewing the paper or preparing a clean reproduction, these are the
-only paths you need first:
+The primary implementation is under src/robust_verify. The package includes data
+loaders, public/private manifest handling, feature extraction, probe training, legal
+query scoring, private oracles, budget allocation, evaluation, and result plotting.
 
-| Question | Open this file or directory |
-| --- | --- |
-| What is the paper's claim and experimental protocol? | [`paper/main_iclr2027.tex`](paper/main_iclr2027.tex) |
-| How is the ICLR source built and which assets are included? | [`paper/ICLR2027_BUILD.md`](paper/ICLR2027_BUILD.md) |
-| Where is the maintained Python implementation? | [`src/robust_verify/`](src/robust_verify/) |
-| Where is the core module-by-module map? | [`docs/CORE_CODE_MAP.md`](docs/CORE_CODE_MAP.md) |
-| How do I verify the code without downloading data? | [`docs/REVIEWER_REPRODUCTION.md`](docs/REVIEWER_REPRODUCTION.md) and [`tests/`](tests/) |
-| Where is the RV-Q definition and implementation? | Paper RV-Q section in [`paper/main_iclr2027.tex`](paper/main_iclr2027.tex), [`src/robust_verify/modern_baselines.py`](src/robust_verify/modern_baselines.py), and [`src/robust_verify/scoring.py`](src/robust_verify/scoring.py) |
-| Which configs are the small and full Waterbirds references? | [`configs/waterbirds_quick.yaml`](configs/waterbirds_quick.yaml) and [`configs/waterbirds_full.yaml`](configs/waterbirds_full.yaml) |
-| Where are claim/result and experiment notes? | [`claim_evidence_ledger.md`](claim_evidence_ledger.md), [`EXPERIMENT_RESULTS.md`](EXPERIMENT_RESULTS.md), and [`docs/`](docs/) |
+## What is implemented
 
-The maintained source of truth is `src/robust_verify`.  The root package keeps
-the public/private data boundary, probe training, legal and oracle scoring,
-RV-Q value scoring, budget allocation, evaluation, and command-line runners in
-one importable package.  Use [`docs/CORE_CODE_MAP.md`](docs/CORE_CODE_MAP.md)
-when you need a more detailed reading order.
+- Waterbirds metadata loading and canonical split generation.
+- Synthetic uniform and group-dependent label corruption.
+- Public training manifests separated from private clean-label/group manifests.
+- Frozen ImageNet ResNet-50 features with a shared linear probe.
+- Per-example training dynamics for loss, entropy, forgetting, and noise-likelihood
+  ranking.
+- Correction-only retraining from a matched initialization.
+- Analysis-only noise, minority, and group-balanced oracle policies.
+- Average accuracy, balanced accuracy, group accuracy, WGA, query composition, and
+  budget-response curves.
 
-The following local material is **not required** for reviewer installation or
-the no-dataset test suite: `data/`, `outputs/`, `output/`, `tmp/`, `dist/`,
-root-level archives, and historical experiment snapshots such as
-`budget_adaptive/`, `budget_hybrid/`, `gated_adaptive/`, and `train/`.  They
-remain available locally for provenance and server hand-off.
+Legal query rules do not read group labels. Private group information is used only for
+corruption generation, oracle analyses, and final evaluation.
 
-## 1. Expected Waterbirds layout
+## Requirements and installation
 
-Point `data.root` to a Waterbirds directory containing `metadata.csv` and the image paths
-listed in its `img_filename` column.
+Python 3.10 or newer is required. A CUDA-capable PyTorch installation is recommended
+for ResNet-50 feature extraction, although the small smoke tests can run on CPU.
 
-Typical metadata columns are:
-
-```text
-img_filename, y, place, split
-```
-
-The loader also accepts `a` or `background` instead of `place`.
-
-The code does not download Waterbirds automatically. Use the official group_DRO/WILDS
-instructions and comply with the source dataset licenses.
-
-## 2. Installation
-
-```bash
-cd latent_group_verification_mvp
+~~~
 python -m venv .venv
+~~~
+
+Activate the environment using the command for your shell:
+
+~~~
+# Linux/macOS
 source .venv/bin/activate
-pip install -U pip
-pip install -e ".[dev]"
-```
 
-Run a dependency and core-logic smoke test:
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+~~~
 
-```bash
+Install the package and development dependencies:
+
+~~~
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+~~~
+
+Run the dependency-light smoke test and the test suite:
+
+~~~
 python -m robust_verify.smoke_test
 python -m pytest -q
-```
+~~~
 
-On Windows, use `.venv\Scripts\python.exe -m ...` if the environment is not
-activated.  The same commands are listed with the expected data prerequisites
-in [`docs/REVIEWER_REPRODUCTION.md`](docs/REVIEWER_REPRODUCTION.md).
+## Data layout
 
-## 3. Configure the data path
+The example configurations expect a Waterbirds directory containing metadata.csv
+and the image files referenced by its img_filename column:
 
-Copy the quick config and edit:
+~~~
+waterbirds/
+  metadata.csv
+  images/
+    ... image files ...
+~~~
 
-```bash
-cp configs/waterbirds_quick.yaml configs/local.yaml
-```
+The metadata normally contains:
 
-Set:
+~~~
+img_filename, y, place, split
+~~~
 
-```yaml
+The loader also accepts a or background as the environment/place column. The
+dataset is not downloaded automatically. Obtain it from the official dataset source
+and follow its license and usage conditions.
+
+## Configure an experiment
+
+Start from one of the two example configurations:
+
+- configs/waterbirds_quick.yaml: one seed, five probe epochs, and budgets of
+  0.5%, 1%, and 2%; suitable for a pipeline check.
+- configs/waterbirds_full.yaml: five seeds, twenty probe epochs, and budgets of
+  0.5%, 1%, 2%, and 5%; suitable for the reference Stage 0-1 experiment.
+
+Copy either file to a local configuration and set data.root to the Waterbirds
+directory. For example:
+
+~~~
+project:
+  output_dir: outputs/waterbirds_mvp
+
 data:
-  root: /absolute/path/to/waterbirds
+  root: /path/to/waterbirds
   metadata_csv: metadata.csv
-```
+~~~
 
-## 4. Run Stage 0
+Use a repository-relative or user-local path in the configuration. Do not commit
+machine-specific absolute paths.
 
-Stage 0 creates canonical metadata, frozen features, and deterministic public/private
-corruption manifests.
+## Run the pipeline
 
-```bash
-rv-stage0 --config configs/local.yaml
-```
+Stage 0 prepares canonical metadata, frozen features, and deterministic public/private
+corruption manifests:
 
-Outputs include:
+~~~
+rv-stage0 --config configs/waterbirds_full.yaml
+~~~
 
-```text
+Stage 1 trains the shared probe, builds query rankings, performs correction-only
+verification, retrains each policy from the same initialization, and evaluates the
+result:
+
+~~~
+rv-stage1 --config configs/waterbirds_full.yaml
+~~~
+
+Run both stages in sequence:
+
+~~~
+rv-run-all --config configs/waterbirds_full.yaml
+~~~
+
+The main output directory contains the following artifacts:
+
+~~~
 outputs/waterbirds_mvp/
-  canonical/
-  features/
-  manifests/
-```
+  canonical/       Canonical train/validation/test tables
+  features/        Cached feature arrays
+  manifests/       Public and private corruption manifests
+  probes/          Probe checkpoints and training dynamics
+  queries/         Ranked and budget-truncated query IDs
+  checkpoints/     Correction-only retraining checkpoints
+  stage1/          results.csv and score correlations
+  plots/            Generated result figures
+~~~
 
-Public training manifests contain only image paths, sample IDs, and noisy/current labels.
-Private manifests contain clean labels, groups, minority status, and corruption status.
+## Query policies
 
-## 5. Run Stage 1
+The example configurations include these policies:
 
-```bash
-rv-stage1 --config configs/local.yaml
-```
-
-Stage 1 trains one shared probe per experimental seed, builds all query rankings, performs
-correction-only verification, retrains every method from the same initialization, and writes:
-
-```text
-outputs/waterbirds_mvp/stage1/
-  probes/
-  dynamics/
-  queries/
-  results.csv
-  score_correlations.csv
-  plots/
-```
-
-Run both stages:
-
-```bash
-rv-run-all --config configs/local.yaml
-```
-
-## 6. Quick and full configurations
-
-`configs/waterbirds_quick.yaml`:
-
-- one seed;
-- five probe/retraining epochs;
-- budgets 0.5%, 1%, and 2%;
-- intended for checking the pipeline.
-
-`configs/waterbirds_full.yaml`:
-
-- five seeds;
-- twenty epochs;
-- budgets 0.5%, 1%, 2%, and 5%;
-- intended for the Stage 1 diagnostic experiment.
-
-## 7. Legal and oracle query methods
-
-Legal methods:
-
-```text
+~~~
 random
 loss
 entropy
 forgetting
 noise_score
-```
-
-Analysis-only methods:
-
-```text
 oracle_noise
 oracle_minority
 oracle_group_balanced
-```
+~~~
 
-Oracle methods read the private manifest and must never be presented as deployable methods.
+The oracle_* policies use private information and are analysis baselines only; they
+must not be interpreted as deployable selection rules. Additional registered policies
+and adaptive variants are implemented in src/robust_verify/scoring.py and
+src/robust_verify/modern_baselines.py.
 
-RV-Q/value-aligned methods:
+## Reading the results
 
-```text
-expected_repair_value
-expected_repair_value_multiclass
-expected_repair_value_adaptive_tau
-expected_repair_value_capture_tau
-expected_repair_value_calibrated_tau
-noise_gated_repair_value
-reliability_gated_repair_value
-```
+The Stage 1 result table reports, among other fields:
 
-The fixed-tail RV-Q score is the product of a clipped legal noise proxy and a
-normalized first-order validation-tail repair-value rank.  Its implementation
-and all adaptive variants are in
-[`src/robust_verify/modern_baselines.py`](src/robust_verify/modern_baselines.py);
-registration and per-budget dispatch are in
-[`src/robust_verify/scoring.py`](src/robust_verify/scoring.py).
-
-## 8. Key output columns
-
-`results.csv` includes:
-
-```text
+~~~
 noise_name
 seed
 method
@@ -222,65 +198,35 @@ budget_count
 num_corrected
 noise_precision
 minority_query_rate
-clean_minority_rate
-group_query_entropy
 average_accuracy
 balanced_accuracy
 wga
 delta_average_accuracy
 delta_wga
-```
+~~~
 
-The most important checks are:
+The most important comparisons are:
 
-1. Does `noise_score` correct more labels than a failure-oriented or oracle-minority policy?
-2. Does correcting more labels always imply a larger WGA gain?
-3. Is there a meaningful gap between `oracle_noise` and `oracle_minority`?
-4. Is there enough oracle headroom to justify developing latent failure slices?
+1. Whether a legal policy improves WGA relative to no correction.
+2. Whether correcting more labels also improves WGA.
+3. The gap between noise-oriented and minority/group-oriented oracle policies.
+4. Whether the result is stable across seeds and corruption settings.
 
-For reviewer-facing result interpretation, preserve the full per-seed
-`results.csv`, query IDs under `stage1/queries/`, and the matching corruption
-manifest.  Do not rely on an aggregate table without its seed-level records.
+Keep the per-seed results.csv, query ID arrays, and the matching private manifest
+together when interpreting or reproducing a run.
 
-## 9. Reproducibility
+## Reproducibility notes
 
-Each experiment seed deterministically controls:
+For a fixed configuration and seed, the pipeline controls corruption generation,
+linear-head initialization, minibatch shuffling, and query ranking. All policies at a
+given seed use the same frozen features, corruption manifest, initialization,
+optimizer settings, and validation checkpoint rule.
 
-- corruption generation;
-- linear-head initialization;
-- minibatch shuffling;
-- random query ranking.
+The implementation is a diagnostic MVP. It uses a frozen backbone and a linear head,
+and its corruption process is synthetic. It does not claim to implement every possible
+latent-group discovery, certification, or multi-round intervention strategy.
 
-All methods at a given seed use the same frozen features, corruption manifest, initial
-linear-head state, optimizer settings, and validation checkpoint rule.
+## License
 
-## 10. Important limitations
-
-This is a diagnostic MVP, not the final proposed method.
-
-- It uses a frozen backbone and a linear head.
-- Stage 1 uses correction-only retraining.
-- Noise probability is a rank-normalized likelihood score, not a calibrated probability.
-- The oracle methods expose private information only to quantify headroom.
-- The project does not yet implement latent clustering, certification-aware upweighting,
-  multi-round active querying, or influence functions.
-
-Those components should be added only after Stage 1 establishes the target mismatch.
-
-## 11. Practical absolute-utility audit
-
-For a practical query method, being worse than `loss` is not the same claim as
-causing absolute harm relative to doing no correction.  Run the audited
-comparison after a frozen matrix completes:
-
-```bash
-python scripts/p0_absolute_utility.py \
-  --results waterbirds=outputs/p0_wave_s1/waterbirds/stage1/results.csv \
-  --results celeba=outputs/p0_wave_s1/celeba/stage1/results.csv \
-  --out-dir outputs/p0_control/practical_absolute_utility
-```
-
-The command excludes oracle rows, preserves seed pairing against `loss`, and
-writes both condition-level and unaggregated tables.  See
-[`docs/PRACTICAL_ABSOLUTE_UTILITY.md`](docs/PRACTICAL_ABSOLUTE_UTILITY.md) for
-the output schema and paper-claim interpretation rules.
+The code is released under the MIT License. Dataset licenses and access conditions are
+separate and remain the responsibility of the user.
